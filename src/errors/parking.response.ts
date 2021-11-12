@@ -16,5 +16,5 @@ export class ParkingResponse {
   errors?: ParkingErrors[];
 
   @Field(() => Parking, {nullable: true})
-  parking: Parking;
+  parking?: Parking;
 }
