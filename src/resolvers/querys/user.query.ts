@@ -6,6 +6,11 @@ import {User} from "../../entity/user.entity";
 
 @Resolver()
 export class UserQuery {
+  @Query(() => [User], {nullable: true})
+  async getUsers() {
+    return User.find();
+  }
+
   @Query(() => User, {nullable: true})
   async me(@Ctx() {req}: MyContext) {
     if (!req.session.cedula) {

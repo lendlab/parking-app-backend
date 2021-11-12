@@ -17,6 +17,9 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../../entity/user.entity");
 let UserQuery = class UserQuery {
+    async getUsers() {
+        return user_entity_1.User.find();
+    }
     async me({ req }) {
         if (!req.session.cedula) {
             return null;
@@ -28,6 +31,12 @@ let UserQuery = class UserQuery {
         return user;
     }
 };
+__decorate([
+    (0, type_graphql_1.Query)(() => [user_entity_1.User]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserQuery.prototype, "getUsers", null);
 __decorate([
     (0, type_graphql_1.Query)(() => user_entity_1.User, { nullable: true }),
     __param(0, (0, type_graphql_1.Ctx)()),

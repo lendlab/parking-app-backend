@@ -29,7 +29,7 @@ export class Parking extends BaseEntity {
   @Column({nullable: true})
   latitude: number;
 
-  @Field(() => Place)
+  @Field(() => Place, {nullable: true})
   @ManyToOne(() => Place, (place) => place.parking)
   place: Place;
 
