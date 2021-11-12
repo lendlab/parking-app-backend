@@ -58,6 +58,11 @@ const main = async () => {
     const schema = await resolvers_1.shcemaIndex;
     const server = new apollo_server_express_1.ApolloServer({
         schema,
+        context: ({ req, res }) => ({
+            req,
+            res,
+            redis: redis_1.default,
+        }),
     });
     await server.start();
     server.applyMiddleware({ app, path: "/graphql", cors: false });

@@ -1,6 +1,5 @@
 import {Arg, Ctx, Mutation, Resolver} from "type-graphql";
 import argon2 from "argon2";
-import {getRepository} from "typeorm";
 
 import {UserResponse} from "../../errors/user.response";
 import {User} from "../../entity/user.entity";
@@ -14,10 +13,7 @@ export class UserMutation {
     @Arg("options", () => LoginInput) options: LoginInput,
     @Ctx() {req}: MyContext
   ): Promise<UserResponse> {
-    const user = await getRepository(User)
-      .createQueryBuilder()
-      .where(`user.cedula = ${options.cedula}`)
-      .getOne();
+    const user = await User.findOne();
 
     if (!user) {
       return {

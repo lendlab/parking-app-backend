@@ -18,20 +18,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserMutation = void 0;
 const type_graphql_1 = require("type-graphql");
 const argon2_1 = __importDefault(require("argon2"));
-const typeorm_1 = require("typeorm");
 const user_response_1 = require("../../errors/user.response");
 const user_entity_1 = require("../../entity/user.entity");
 const user_input_1 = require("../../inputs/user.input");
 let UserMutation = class UserMutation {
     async login(options, { req }) {
-        const user = await (0, typeorm_1.getRepository)(user_entity_1.User)
-            .createQueryBuilder()
-            .where(`user.cedula = ${options.cedula}`)
-            .getOne();
+        const user = await user_entity_1.User.findOne();
         if (!user) {
             return {
                 errors: [
-                    { path: "ci", message: "Esta cedula no existe, intentalo de nuevo." },
+                    {
+                        path: "cedula",
+                        message: "Esta cedula no existe, intentalo de nuevo.",
+                    },
                 ],
             };
         }
