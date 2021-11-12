@@ -22,7 +22,10 @@ export class UserMutation {
     if (!user) {
       return {
         errors: [
-          {path: "ci", message: "Esta cedula no existe, intentalo de nuevo."},
+          {
+            path: "cedula",
+            message: "Esta cedula no existe, intentalo de nuevo.",
+          },
         ],
       };
     }

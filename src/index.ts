@@ -11,10 +11,14 @@ import {shcemaIndex} from "./resolvers";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import redis from "redis";
-import {cloudConnection} from "./cloud.connection";
+
+//import {cloudConnection} from "./cloud.connection";
+import {createConnection} from "typeorm";
 
 const main = async () => {
-  await cloudConnection();
+  await createConnection();
+
+  //await cloudConnection();
 
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient({
@@ -68,6 +72,11 @@ const main = async () => {
 
   const server = new ApolloServer({
     schema,
+    context: ({req, res}) => ({
+      req,
+      res,
+      redis,
+    }),
   });
 
   await server.start();
