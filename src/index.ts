@@ -12,13 +12,13 @@ import session from "express-session";
 import connectRedis from "connect-redis";
 import redis from "redis";
 
-//import {cloudConnection} from "./cloud.connection";
-import {createConnection} from "typeorm";
+import {cloudConnection} from "./cloud.connection";
+//import {createConnection} from "typeorm";
 
 const main = async () => {
-  await createConnection();
+  //await createConnection();
 
-  //await cloudConnection();
+  await cloudConnection();
 
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient({
