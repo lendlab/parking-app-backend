@@ -9,16 +9,16 @@ export class ParkingQuerys {
   async getParkings() {
     return await getRepository(Parking)
       .createQueryBuilder("parking")
-      .innerJoinAndSelect("parking.place", "place")
       .innerJoinAndSelect("parking.have", "have")
       .getMany();
   }
 
   @Query(() => [Have], {nullable: true})
-  async getParkings2(@Arg("parking_id", () => Int) parking_id: number) {
+  async getParkingsPlace(@Arg("parking_id", () => Int) parking_id: number) {
     return await getRepository(Have)
       .createQueryBuilder("have")
       .innerJoinAndSelect("have.parking", "parking")
+      .innerJoinAndSelect("have.place", "place")
       .where(`parking.parking_id = ${parking_id}`)
       .getMany();
   }
