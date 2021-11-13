@@ -7,9 +7,9 @@ class Place_Id {
 }
 
 @InputType()
-class User_Ci {
+class User_Email {
   @Field()
-  cedula: number;
+  email: string;
 }
 
 @InputType()
@@ -23,8 +23,8 @@ export class ReservationInput {
   @Field(() => Date, {nullable: true})
   reservation_end: Date;
 
-  @Field(() => User_Ci)
-  user: User_Ci;
+  @Field(() => User_Email)
+  user: User_Email;
 
   @Field(() => Place_Id)
   place: Place_Id;

@@ -8,11 +8,11 @@ class Parking_ID {
 
 @InputType()
 export class PlaceInput {
-  @Field()
-  occuped: true;
+  @Field(() => Boolean)
+  occuped: Boolean;
 
-  @Field(() => Parking_ID)
-  parking: Parking_ID;
+  @Field()
+  place_number: number;
 }
 
 @InputType()
