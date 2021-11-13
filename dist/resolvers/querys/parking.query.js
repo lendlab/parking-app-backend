@@ -32,24 +32,6 @@ let ParkingQuerys = class ParkingQuerys {
             .where(`parking.parking_id = ${parking_id}`)
             .getMany();
     }
-    async getAvaliblePlaceList2() {
-        const places = await (0, typeorm_1.getRepository)(have_entity_1.Have)
-            .createQueryBuilder("have")
-            .innerJoinAndSelect("have.parking", "parking")
-            .innerJoinAndSelect("have.place", "place")
-            .where("place.occuped = false")
-            .getMany();
-        return places;
-    }
-    async getOcuppedPlaceList() {
-        const places = await (0, typeorm_1.getRepository)(have_entity_1.Have)
-            .createQueryBuilder("have")
-            .innerJoinAndSelect("have.parking", "parking")
-            .innerJoinAndSelect("have.place", "place")
-            .where("place.occuped = true")
-            .getMany();
-        return places;
-    }
 };
 __decorate([
     (0, type_graphql_1.Query)(() => [parking_entity_1.Parking], { nullable: true }),
@@ -64,18 +46,6 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], ParkingQuerys.prototype, "getParkingsPlace", null);
-__decorate([
-    (0, type_graphql_1.Query)(() => [have_entity_1.Have], { nullable: true }),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], ParkingQuerys.prototype, "getAvaliblePlaceList2", null);
-__decorate([
-    (0, type_graphql_1.Query)(() => [have_entity_1.Have], { nullable: true }),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], ParkingQuerys.prototype, "getOcuppedPlaceList", null);
 ParkingQuerys = __decorate([
     (0, type_graphql_1.Resolver)()
 ], ParkingQuerys);

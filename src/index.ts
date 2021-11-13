@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import "dotenv/config";
 import {ApolloServer} from "apollo-server-express";
-//import {createConnection} from "typeorm";
 import express from "express";
 import http from "http";
 import cors from "cors";

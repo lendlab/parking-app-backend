@@ -1,6 +1,7 @@
 import {Field, ObjectType} from "type-graphql";
+import {Have} from "../entity/have.entity";
 
-import {Place} from "../entity/place.entity";
+//import {Place} from "../entity/place.entity";
 
 @ObjectType()
 class ReservateErrors {
@@ -16,6 +17,6 @@ export class ReservateResponse {
   @Field(() => [ReservateErrors], {nullable: true})
   errors?: ReservateErrors[];
 
-  @Field(() => Place, {nullable: true})
-  place?: Place;
+  @Field(() => Have, {nullable: true})
+  have?: Have;
 }

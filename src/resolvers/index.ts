@@ -6,6 +6,7 @@ import {UserMutation} from "./mutations/user.mutation";
 import {HelloResolver} from "./querys/hello";
 import {ParkingQuerys} from "./querys/parking.query";
 import {PlaceQuerys} from "./querys/place.query";
+import {ReservationQuerys} from "./querys/reservation.query";
 import {UserQuery} from "./querys/user.query";
 
 const resolvers = [
@@ -13,6 +14,7 @@ const resolvers = [
   UserQuery,
   PlaceQuerys,
   ParkingQuerys,
+  ReservationQuerys,
   //mutation
   UserMutation,
   ParkingMutation,

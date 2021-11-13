@@ -9,12 +9,14 @@ const user_mutation_1 = require("./mutations/user.mutation");
 const hello_1 = require("./querys/hello");
 const parking_query_1 = require("./querys/parking.query");
 const place_query_1 = require("./querys/place.query");
+const reservation_query_1 = require("./querys/reservation.query");
 const user_query_1 = require("./querys/user.query");
 const resolvers = [
     hello_1.HelloResolver,
     user_query_1.UserQuery,
     place_query_1.PlaceQuerys,
     parking_query_1.ParkingQuerys,
+    reservation_query_1.ReservationQuerys,
     user_mutation_1.UserMutation,
     parking_mutation_1.ParkingMutation,
     place_mutation_1.PlaceMutations,

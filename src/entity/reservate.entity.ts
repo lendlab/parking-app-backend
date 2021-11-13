@@ -23,19 +23,20 @@ export class Reservate extends BaseEntity {
   reservation_token: string;
 
   @Field(() => Date)
-  @CreateDateColumn()
+  @CreateDateColumn({type: "timestamp"})
   reservation_starts: Date;
 
-  @Field(() => Date)
-  @CreateDateColumn({nullable: true})
+  @Field(() => Date, {nullable: true})
+  @CreateDateColumn({type: "timestamp", nullable: true})
   reservation_end: Date;
 
-  @Field(() => User, {nullable: true})
+  @Field(() => User)
   @ManyToOne(() => User, (user) => user.reservates, {onDelete: "CASCADE"})
   user: User;
 
-  @Field(() => Place, {nullable: true})
+  @Field(() => Place)
   @ManyToOne(() => Place, (place) => place.reservate, {
+    primary: true,
     onDelete: "CASCADE",
   })
   place: Place;

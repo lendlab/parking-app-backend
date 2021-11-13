@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReservateResponse = void 0;
 const type_graphql_1 = require("type-graphql");
-const place_entity_1 = require("../entity/place.entity");
+const have_entity_1 = require("../entity/have.entity");
 let ReservateErrors = class ReservateErrors {
 };
 __decorate([
@@ -32,9 +32,9 @@ __decorate([
     __metadata("design:type", Array)
 ], ReservateResponse.prototype, "errors", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => place_entity_1.Place, { nullable: true }),
-    __metadata("design:type", place_entity_1.Place)
-], ReservateResponse.prototype, "place", void 0);
+    (0, type_graphql_1.Field)(() => have_entity_1.Have, { nullable: true }),
+    __metadata("design:type", have_entity_1.Have)
+], ReservateResponse.prototype, "have", void 0);
 ReservateResponse = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], ReservateResponse);

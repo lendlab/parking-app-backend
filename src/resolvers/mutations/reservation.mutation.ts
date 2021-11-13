@@ -7,6 +7,7 @@ import {ReservateResponse} from "../../errors/reservate.response";
 import {ReservationInput} from "../../inputs/reservate.input";
 import {Reservate} from "../../entity/reservate.entity";
 import {genToken} from "../../utils/genToken";
+import {Have} from "../../entity/have.entity";
 
 @Resolver()
 export class ReservationMutation {
@@ -32,17 +33,19 @@ export class ReservationMutation {
     @Arg("place_id", () => Int) place_id: number,
     @Arg("options", () => Reservates) options: Reservates
   ): Promise<ReservateResponse> {
-    const place = await getRepository(Place)
-      .createQueryBuilder("place")
-      .innerJoinAndSelect("place.parking", "parking")
+    const have = await getRepository(Have)
+      .createQueryBuilder("have")
+      .innerJoinAndSelect("have.place", "place")
+      .innerJoinAndSelect("have.parking", "parking")
       .where(`place.place_id = ${place_id}`)
       .getOne();
 
     if (options.occuped === true) {
       await Place.update({place_id}, options);
     } else {
-      console.log("ocurrio un error");
+      await Place.update({place_id}, options);
     }
-    return {place};
+
+    return {have};
   }
 }

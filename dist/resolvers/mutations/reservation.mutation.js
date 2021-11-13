@@ -21,6 +21,7 @@ const reservate_response_1 = require("../../errors/reservate.response");
 const reservate_input_1 = require("../../inputs/reservate.input");
 const reservate_entity_1 = require("../../entity/reservate.entity");
 const genToken_1 = require("../../utils/genToken");
+const have_entity_1 = require("../../entity/have.entity");
 let ReservationMutation = class ReservationMutation {
     async createReservation(options) {
         const token = options.reservation_token + (0, genToken_1.genToken)(10);
@@ -34,18 +35,19 @@ let ReservationMutation = class ReservationMutation {
         return reservation;
     }
     async confirmReservation(place_id, options) {
-        const place = await (0, typeorm_1.getRepository)(place_entity_1.Place)
-            .createQueryBuilder("place")
-            .innerJoinAndSelect("place.parking", "parking")
+        const have = await (0, typeorm_1.getRepository)(have_entity_1.Have)
+            .createQueryBuilder("have")
+            .innerJoinAndSelect("have.place", "place")
+            .innerJoinAndSelect("have.parking", "parking")
             .where(`place.place_id = ${place_id}`)
             .getOne();
         if (options.occuped === true) {
             await place_entity_1.Place.update({ place_id }, options);
         }
         else {
-            console.log("ocurrio un error");
+            await place_entity_1.Place.update({ place_id }, options);
         }
-        return { place };
+        return { have };
     }
 };
 __decorate([

@@ -10,18 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlaceQuerys = void 0;
-const place_entity_1 = require("../../entity/place.entity");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
+const have_entity_1 = require("../../entity/have.entity");
+const place_entity_1 = require("../../entity/place.entity");
 let PlaceQuerys = class PlaceQuerys {
     async getPlacesList() {
         const places = await place_entity_1.Place.find();
         return places;
     }
     async getAvaliblePlaceList() {
-        const places = await (0, typeorm_1.getRepository)(place_entity_1.Place)
-            .createQueryBuilder("place")
+        const places = await (0, typeorm_1.getRepository)(have_entity_1.Have)
+            .createQueryBuilder("have")
+            .innerJoinAndSelect("have.parking", "parking")
+            .innerJoinAndSelect("have.place", "place")
             .where("place.occuped = false")
+            .getMany();
+        return places;
+    }
+    async getOcuppedPlaceList() {
+        const places = await (0, typeorm_1.getRepository)(have_entity_1.Have)
+            .createQueryBuilder("have")
+            .innerJoinAndSelect("have.parking", "parking")
+            .innerJoinAndSelect("have.place", "place")
+            .where("place.occuped = true")
             .getMany();
         return places;
     }
@@ -33,11 +45,17 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PlaceQuerys.prototype, "getPlacesList", null);
 __decorate([
-    (0, type_graphql_1.Query)(() => [place_entity_1.Place], { nullable: true }),
+    (0, type_graphql_1.Query)(() => [have_entity_1.Have], { nullable: true }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], PlaceQuerys.prototype, "getAvaliblePlaceList", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => [have_entity_1.Have], { nullable: true }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PlaceQuerys.prototype, "getOcuppedPlaceList", null);
 PlaceQuerys = __decorate([
     (0, type_graphql_1.Resolver)()
 ], PlaceQuerys);

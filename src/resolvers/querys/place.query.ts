@@ -1,6 +1,8 @@
-import {Place} from "../../entity/place.entity";
 import {Query, Resolver} from "type-graphql";
 import {getRepository} from "typeorm";
+
+import {Have} from "../../entity/have.entity";
+import {Place} from "../../entity/place.entity";
 
 @Resolver()
 export class PlaceQuerys {
@@ -11,11 +13,25 @@ export class PlaceQuerys {
     return places;
   }
 
-  @Query(() => [Place], {nullable: true})
+  @Query(() => [Have], {nullable: true})
   async getAvaliblePlaceList() {
-    const places = await getRepository(Place)
-      .createQueryBuilder("place")
+    const places = await getRepository(Have)
+      .createQueryBuilder("have")
+      .innerJoinAndSelect("have.parking", "parking")
+      .innerJoinAndSelect("have.place", "place")
       .where("place.occuped = false")
+      .getMany();
+
+    return places;
+  }
+
+  @Query(() => [Have], {nullable: true})
+  async getOcuppedPlaceList() {
+    const places = await getRepository(Have)
+      .createQueryBuilder("have")
+      .innerJoinAndSelect("have.parking", "parking")
+      .innerJoinAndSelect("have.place", "place")
+      .where("place.occuped = true")
       .getMany();
 
     return places;
