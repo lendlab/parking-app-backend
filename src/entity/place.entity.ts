@@ -16,6 +16,10 @@ export class Place extends BaseEntity {
   @PrimaryGeneratedColumn()
   place_id: number;
 
+  @Field()
+  @Column()
+  place_number: number;
+
   @Field(() => Boolean)
   @Column({type: "boolean"})
   occuped: Boolean;
