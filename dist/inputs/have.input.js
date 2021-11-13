@@ -9,39 +9,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Place = void 0;
+exports.HaveInput = void 0;
 const type_graphql_1 = require("type-graphql");
-const typeorm_1 = require("typeorm");
-const have_entity_1 = require("./have.entity");
-const reservate_entity_1 = require("./reservate.entity");
-let Place = class Place extends typeorm_1.BaseEntity {
+let Parking_id = class Parking_id {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Place.prototype, "place_id", void 0);
+], Parking_id.prototype, "parking_id", void 0);
+Parking_id = __decorate([
+    (0, type_graphql_1.InputType)()
+], Parking_id);
+let Place_id = class Place_id {
+};
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
-], Place.prototype, "place_number", void 0);
+], Place_id.prototype, "place_id", void 0);
+Place_id = __decorate([
+    (0, type_graphql_1.InputType)()
+], Place_id);
+let HaveInput = class HaveInput {
+};
 __decorate([
-    (0, type_graphql_1.Field)(() => Boolean),
-    (0, typeorm_1.Column)({ type: "boolean" }),
-    __metadata("design:type", Boolean)
-], Place.prototype, "occuped", void 0);
+    (0, type_graphql_1.Field)(() => Parking_id),
+    __metadata("design:type", Parking_id)
+], HaveInput.prototype, "parking", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => have_entity_1.Have, (have) => have.parking),
-    __metadata("design:type", Promise)
-], Place.prototype, "have", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => reservate_entity_1.Reservate, (reservate) => reservate.place),
-    __metadata("design:type", Promise)
-], Place.prototype, "reservate", void 0);
-Place = __decorate([
-    (0, type_graphql_1.ObjectType)(),
-    (0, typeorm_1.Entity)()
-], Place);
-exports.Place = Place;
-//# sourceMappingURL=place.entity.js.map
+    (0, type_graphql_1.Field)(() => Place_id),
+    __metadata("design:type", Place_id)
+], HaveInput.prototype, "place", void 0);
+HaveInput = __decorate([
+    (0, type_graphql_1.InputType)()
+], HaveInput);
+exports.HaveInput = HaveInput;
+//# sourceMappingURL=have.input.js.map

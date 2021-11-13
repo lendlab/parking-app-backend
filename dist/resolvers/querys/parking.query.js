@@ -19,18 +19,36 @@ const parking_entity_1 = require("../../entity/parking.entity");
 const have_entity_1 = require("../../entity/have.entity");
 let ParkingQuerys = class ParkingQuerys {
     async getParkings() {
-        return await (0, typeorm_1.getRepository)(parking_entity_1.Parking)
+        const parking = await (0, typeorm_1.getRepository)(parking_entity_1.Parking)
             .createQueryBuilder("parking")
-            .innerJoinAndSelect("parking.place", "place")
-            .innerJoinAndSelect("parking.have", "have")
             .getMany();
+        return parking;
     }
-    async getParkings2(parking_id) {
+    async getParkingsPlace(parking_id) {
         return await (0, typeorm_1.getRepository)(have_entity_1.Have)
             .createQueryBuilder("have")
             .innerJoinAndSelect("have.parking", "parking")
+            .innerJoinAndSelect("have.place", "place")
             .where(`parking.parking_id = ${parking_id}`)
             .getMany();
+    }
+    async getAvaliblePlaceList2() {
+        const places = await (0, typeorm_1.getRepository)(have_entity_1.Have)
+            .createQueryBuilder("have")
+            .innerJoinAndSelect("have.parking", "parking")
+            .innerJoinAndSelect("have.place", "place")
+            .where("place.occuped = false")
+            .getMany();
+        return places;
+    }
+    async getOcuppedPlaceList() {
+        const places = await (0, typeorm_1.getRepository)(have_entity_1.Have)
+            .createQueryBuilder("have")
+            .innerJoinAndSelect("have.parking", "parking")
+            .innerJoinAndSelect("have.place", "place")
+            .where("place.occuped = true")
+            .getMany();
+        return places;
     }
 };
 __decorate([
@@ -45,7 +63,19 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], ParkingQuerys.prototype, "getParkings2", null);
+], ParkingQuerys.prototype, "getParkingsPlace", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => [have_entity_1.Have], { nullable: true }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ParkingQuerys.prototype, "getAvaliblePlaceList2", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => [have_entity_1.Have], { nullable: true }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ParkingQuerys.prototype, "getOcuppedPlaceList", null);
 ParkingQuerys = __decorate([
     (0, type_graphql_1.Resolver)()
 ], ParkingQuerys);

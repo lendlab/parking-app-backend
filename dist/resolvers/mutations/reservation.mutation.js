@@ -18,7 +18,21 @@ const typeorm_1 = require("typeorm");
 const place_entity_1 = require("../../entity/place.entity");
 const place_input_1 = require("../../inputs/place.input");
 const reservate_response_1 = require("../../errors/reservate.response");
+const reservate_input_1 = require("../../inputs/reservate.input");
+const reservate_entity_1 = require("../../entity/reservate.entity");
+const genToken_1 = require("../../utils/genToken");
 let ReservationMutation = class ReservationMutation {
+    async createReservation(options) {
+        const token = options.reservation_token + (0, genToken_1.genToken)(10);
+        const reservation = await reservate_entity_1.Reservate.create({
+            reservation_token: token,
+            reservation_starts: options.reservation_starts,
+            reservation_end: options.reservation_end,
+            place: options.place,
+            user: options.user,
+        }).save();
+        return reservation;
+    }
     async confirmReservation(place_id, options) {
         const place = await (0, typeorm_1.getRepository)(place_entity_1.Place)
             .createQueryBuilder("place")
@@ -34,6 +48,13 @@ let ReservationMutation = class ReservationMutation {
         return { place };
     }
 };
+__decorate([
+    (0, type_graphql_1.Mutation)(() => reservate_entity_1.Reservate, { nullable: true }),
+    __param(0, (0, type_graphql_1.Arg)("options", () => reservate_input_1.ReservationInput)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [reservate_input_1.ReservationInput]),
+    __metadata("design:returntype", Promise)
+], ReservationMutation.prototype, "createReservation", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => reservate_response_1.ReservateResponse, { nullable: true }),
     __param(0, (0, type_graphql_1.Arg)("place_id", () => type_graphql_1.Int)),

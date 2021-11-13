@@ -20,15 +20,15 @@ __decorate([
 Place_Id = __decorate([
     (0, type_graphql_1.InputType)()
 ], Place_Id);
-let User_Ci = class User_Ci {
+let User_Email = class User_Email {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
-], User_Ci.prototype, "cedula", void 0);
-User_Ci = __decorate([
+    __metadata("design:type", String)
+], User_Email.prototype, "email", void 0);
+User_Email = __decorate([
     (0, type_graphql_1.InputType)()
-], User_Ci);
+], User_Email);
 let ReservationInput = class ReservationInput {
 };
 __decorate([
@@ -44,8 +44,8 @@ __decorate([
     __metadata("design:type", Date)
 ], ReservationInput.prototype, "reservation_end", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => User_Ci),
-    __metadata("design:type", User_Ci)
+    (0, type_graphql_1.Field)(() => User_Email),
+    __metadata("design:type", User_Email)
 ], ReservationInput.prototype, "user", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => Place_Id),

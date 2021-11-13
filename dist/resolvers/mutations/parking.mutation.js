@@ -22,6 +22,10 @@ let ParkingMutation = class ParkingMutation {
         const parking = await parking_entity_1.Parking.create(Object.assign({}, optinons)).save();
         return { parking };
     }
+    async deleteParking(parking_id) {
+        await parking_entity_1.Parking.delete(parking_id);
+        return true;
+    }
 };
 __decorate([
     (0, type_graphql_1.Mutation)(() => parking_response_1.ParkingResponse, { nullable: true }),
@@ -30,6 +34,13 @@ __decorate([
     __metadata("design:paramtypes", [parking_input_1.ParkingInput]),
     __metadata("design:returntype", Promise)
 ], ParkingMutation.prototype, "createParking", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => Boolean, { nullable: true }),
+    __param(0, (0, type_graphql_1.Arg)("parking_id", () => type_graphql_1.Int)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ParkingMutation.prototype, "deleteParking", null);
 ParkingMutation = __decorate([
     (0, type_graphql_1.Resolver)()
 ], ParkingMutation);

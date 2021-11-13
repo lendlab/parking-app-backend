@@ -14,7 +14,7 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const parking_entity_1 = require("./parking.entity");
 const place_entity_1 = require("./place.entity");
-let Have = class Have {
+let Have = class Have extends typeorm_1.BaseEntity {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -23,12 +23,18 @@ __decorate([
 ], Have.prototype, "have_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => place_entity_1.Place, { nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => place_entity_1.Place, (place) => place.have),
+    (0, typeorm_1.ManyToOne)(() => place_entity_1.Place, (place) => place.have, {
+        onDelete: "CASCADE",
+        primary: true,
+    }),
     __metadata("design:type", place_entity_1.Place)
 ], Have.prototype, "place", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => parking_entity_1.Parking, { nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => parking_entity_1.Parking, (parking) => parking.have),
+    (0, typeorm_1.ManyToOne)(() => parking_entity_1.Parking, (parking) => parking.have, {
+        onDelete: "CASCADE",
+        primary: true,
+    }),
     __metadata("design:type", parking_entity_1.Parking)
 ], Have.prototype, "parking", void 0);
 Have = __decorate([

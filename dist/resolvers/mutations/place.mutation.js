@@ -17,16 +17,16 @@ const type_graphql_1 = require("type-graphql");
 const place_response_1 = require("../../errors/place.response");
 const place_input_1 = require("../../inputs/place.input");
 const place_entity_1 = require("../../entity/place.entity");
-const typeorm_1 = require("typeorm");
+const have_entity_1 = require("../../entity/have.entity");
+const have_input_1 = require("../../inputs/have.input");
 let PlaceMutations = class PlaceMutations {
     async createPlace(options) {
-        await place_entity_1.Place.create(Object.assign({}, options)).save();
-        const place = await (0, typeorm_1.getRepository)(place_entity_1.Place)
-            .createQueryBuilder("place")
-            .innerJoinAndSelect("place.parking", "parking")
-            .where(`parking.parking_id = ${options.parking.parking_id}`)
-            .getOne();
+        const place = await place_entity_1.Place.create(Object.assign({}, options)).save();
         return { place };
+    }
+    async addPlaceToParking(options) {
+        const parking = await have_entity_1.Have.create(Object.assign({}, options)).save();
+        return parking;
     }
 };
 __decorate([
@@ -36,6 +36,13 @@ __decorate([
     __metadata("design:paramtypes", [place_input_1.PlaceInput]),
     __metadata("design:returntype", Promise)
 ], PlaceMutations.prototype, "createPlace", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => have_entity_1.Have, { nullable: true }),
+    __param(0, (0, type_graphql_1.Arg)("options", () => have_input_1.HaveInput)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [have_input_1.HaveInput]),
+    __metadata("design:returntype", Promise)
+], PlaceMutations.prototype, "addPlaceToParking", null);
 PlaceMutations = __decorate([
     (0, type_graphql_1.Resolver)()
 ], PlaceMutations);

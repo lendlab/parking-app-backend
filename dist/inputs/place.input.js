@@ -23,13 +23,13 @@ Parking_ID = __decorate([
 let PlaceInput = class PlaceInput {
 };
 __decorate([
-    (0, type_graphql_1.Field)(),
+    (0, type_graphql_1.Field)(() => Boolean),
     __metadata("design:type", Boolean)
 ], PlaceInput.prototype, "occuped", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => Parking_ID),
-    __metadata("design:type", Parking_ID)
-], PlaceInput.prototype, "parking", void 0);
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], PlaceInput.prototype, "place_number", void 0);
 PlaceInput = __decorate([
     (0, type_graphql_1.InputType)()
 ], PlaceInput);
