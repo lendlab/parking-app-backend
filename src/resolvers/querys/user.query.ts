@@ -13,13 +13,13 @@ export class UserQuery {
 
   @Query(() => User, {nullable: true})
   async me(@Ctx() {req}: MyContext) {
-    if (!req.session.cedula) {
+    if (!req.session.email) {
       return null;
     }
 
     const user = getRepository(User)
       .createQueryBuilder("user")
-      .where(`user.cedula = ${req.session.cedula}`)
+      .where(`user.email = '${req.session.email}'`)
       .getOne();
 
     return user;

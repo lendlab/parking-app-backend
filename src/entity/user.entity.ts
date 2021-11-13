@@ -7,15 +7,11 @@ import {Reservate} from "./reservate.entity";
 export class User extends BaseEntity {
   @Field()
   @PrimaryColumn()
-  cedula: number;
+  email: string;
 
   @Field()
   @Column()
   name: string;
-
-  @Field()
-  @Column({unique: true})
-  email: string;
 
   @Column()
   password: string;

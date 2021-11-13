@@ -5,6 +5,7 @@ import {UserResponse} from "../../errors/user.response";
 import {User} from "../../entity/user.entity";
 import {LoginInput, UserInput} from "../../inputs/user.input";
 import {MyContext} from "../../types/MyContext";
+import {getRepository} from "typeorm";
 
 @Resolver()
 export class UserMutation {
@@ -13,14 +14,17 @@ export class UserMutation {
     @Arg("options", () => LoginInput) options: LoginInput,
     @Ctx() {req}: MyContext
   ): Promise<UserResponse> {
-    const user = await User.findOne();
+    const user = await getRepository(User)
+      .createQueryBuilder("user")
+      .where(`user.email = '${options.email}'`)
+      .getOne();
 
     if (!user) {
       return {
         errors: [
           {
-            path: "cedula",
-            message: "Esta cedula no existe, intentalo de nuevo.",
+            path: "email",
+            message: "Esta email no existe, intentalo de nuevo.",
           },
         ],
       };
@@ -39,7 +43,7 @@ export class UserMutation {
       };
     }
 
-    req.session.cedula = user.cedula;
+    req.session.email = user.email;
 
     return {user};
   }
@@ -66,7 +70,6 @@ export class UserMutation {
     const hashedPass = await argon2.hash(options.password);
 
     const user = await User.create({
-      cedula: options.cedula,
       name: options.name,
       email: options.email,
       password: hashedPass,

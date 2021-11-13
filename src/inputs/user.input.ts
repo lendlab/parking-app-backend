@@ -3,9 +3,6 @@ import {Field, InputType} from "type-graphql";
 @InputType()
 export class UserInput {
   @Field()
-  cedula: number;
-
-  @Field()
   name: string;
 
   @Field()
@@ -18,7 +15,7 @@ export class UserInput {
 @InputType()
 export class LoginInput {
   @Field()
-  cedula: number;
+  email: string;
 
   @Field()
   password: string;
