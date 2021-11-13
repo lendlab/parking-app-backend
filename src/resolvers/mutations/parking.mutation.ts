@@ -1,4 +1,4 @@
-import {Arg, Mutation, Resolver} from "type-graphql";
+import {Arg, Int, Mutation, Resolver} from "type-graphql";
 
 import {Parking} from "../../entity/parking.entity";
 import {ParkingResponse} from "../../errors/parking.response";
@@ -13,5 +13,11 @@ export class ParkingMutation {
     const parking = await Parking.create({...optinons}).save();
 
     return {parking};
+  }
+
+  @Mutation(() => Boolean, {nullable: true})
+  async deleteParking(@Arg("parking_id", () => Int) parking_id: number) {
+    await Parking.delete(parking_id);
+    return true;
   }
 }
