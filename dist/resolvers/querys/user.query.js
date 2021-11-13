@@ -21,18 +21,18 @@ let UserQuery = class UserQuery {
         return user_entity_1.User.find();
     }
     async me({ req }) {
-        if (!req.session.cedula) {
+        if (!req.session.email) {
             return null;
         }
         const user = (0, typeorm_1.getRepository)(user_entity_1.User)
             .createQueryBuilder("user")
-            .where(`user.cedula = ${req.session.cedula}`)
+            .where(`user.email = '${req.session.email}'`)
             .getOne();
         return user;
     }
 };
 __decorate([
-    (0, type_graphql_1.Query)(() => [user_entity_1.User]),
+    (0, type_graphql_1.Query)(() => [user_entity_1.User], { nullable: true }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

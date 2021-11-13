@@ -21,15 +21,19 @@ const argon2_1 = __importDefault(require("argon2"));
 const user_response_1 = require("../../errors/user.response");
 const user_entity_1 = require("../../entity/user.entity");
 const user_input_1 = require("../../inputs/user.input");
+const typeorm_1 = require("typeorm");
 let UserMutation = class UserMutation {
     async login(options, { req }) {
-        const user = await user_entity_1.User.findOne();
+        const user = await (0, typeorm_1.getRepository)(user_entity_1.User)
+            .createQueryBuilder("user")
+            .where(`user.email = '${options.email}'`)
+            .getOne();
         if (!user) {
             return {
                 errors: [
                     {
-                        path: "cedula",
-                        message: "Esta cedula no existe, intentalo de nuevo.",
+                        path: "email",
+                        message: "Esta email no existe, intentalo de nuevo.",
                     },
                 ],
             };
@@ -45,7 +49,7 @@ let UserMutation = class UserMutation {
                 ],
             };
         }
-        req.session.cedula = user.cedula;
+        req.session.email = user.email;
         return { user };
     }
     logout({ req, res }) {
@@ -62,7 +66,6 @@ let UserMutation = class UserMutation {
     async createUser(options) {
         const hashedPass = await argon2_1.default.hash(options.password);
         const user = await user_entity_1.User.create({
-            cedula: options.cedula,
             name: options.name,
             email: options.email,
             password: hashedPass,

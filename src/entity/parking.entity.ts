@@ -3,12 +3,10 @@ import {
   BaseEntity,
   Column,
   Entity,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import {Place} from "./place.entity";
-import {Reservate} from "./reservate.entity";
+import {Have} from "./have.entity";
 
 @ObjectType()
 @Entity()
@@ -29,10 +27,6 @@ export class Parking extends BaseEntity {
   @Column({nullable: true})
   latitude: number;
 
-  @Field(() => Place, {nullable: true})
-  @ManyToOne(() => Place, (place) => place.parking)
-  place: Place;
-
-  @OneToMany(() => Reservate, (reservate) => reservate.parking)
-  reservates: Promise<Reservate>;
+  @OneToMany(() => Have, (have) => have.parking)
+  have: Promise<Have>;
 }

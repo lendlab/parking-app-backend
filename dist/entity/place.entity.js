@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Place = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const parking_entity_1 = require("./parking.entity");
+const have_entity_1 = require("./have.entity");
+const reservate_entity_1 = require("./reservate.entity");
 let Place = class Place extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -24,11 +25,15 @@ __decorate([
     (0, type_graphql_1.Field)(() => Boolean),
     (0, typeorm_1.Column)({ type: "boolean" }),
     __metadata("design:type", Boolean)
-], Place.prototype, "busy", void 0);
+], Place.prototype, "occuped", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => parking_entity_1.Parking, (parking) => parking.place),
+    (0, typeorm_1.OneToMany)(() => have_entity_1.Have, (have) => have.parking),
     __metadata("design:type", Promise)
-], Place.prototype, "parking", void 0);
+], Place.prototype, "have", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => reservate_entity_1.Reservate, (reservate) => reservate.place),
+    __metadata("design:type", Promise)
+], Place.prototype, "reservate", void 0);
 Place = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()

@@ -12,8 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parking = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const place_entity_1 = require("./place.entity");
-const reservate_entity_1 = require("./reservate.entity");
+const have_entity_1 = require("./have.entity");
 let Parking = class Parking extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -37,14 +36,9 @@ __decorate([
     __metadata("design:type", Number)
 ], Parking.prototype, "latitude", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => place_entity_1.Place),
-    (0, typeorm_1.ManyToOne)(() => place_entity_1.Place, (place) => place.parking),
-    __metadata("design:type", place_entity_1.Place)
-], Parking.prototype, "place", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => reservate_entity_1.Reservate, (reservate) => reservate.parking),
+    (0, typeorm_1.OneToMany)(() => have_entity_1.Have, (have) => have.parking),
     __metadata("design:type", Promise)
-], Parking.prototype, "reservates", void 0);
+], Parking.prototype, "have", void 0);
 Parking = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()

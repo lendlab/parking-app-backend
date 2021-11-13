@@ -15,10 +15,6 @@ let UserInput = class UserInput {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
-], UserInput.prototype, "cedula", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
 ], UserInput.prototype, "name", void 0);
 __decorate([
@@ -37,8 +33,8 @@ let LoginInput = class LoginInput {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
-], LoginInput.prototype, "cedula", void 0);
+    __metadata("design:type", String)
+], LoginInput.prototype, "email", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)

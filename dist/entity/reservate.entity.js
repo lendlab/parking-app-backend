@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Reservate = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const parking_entity_1 = require("./parking.entity");
+const place_entity_1 = require("./place.entity");
 const user_entity_1 = require("./user.entity");
 let Reservate = class Reservate extends typeorm_1.BaseEntity {
 };
@@ -27,15 +27,27 @@ __decorate([
     __metadata("design:type", String)
 ], Reservate.prototype, "reservation_token", void 0);
 __decorate([
+    (0, type_graphql_1.Field)(() => Date),
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Reservate.prototype, "reservation_starts", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => Date),
+    (0, typeorm_1.CreateDateColumn)({ nullable: true }),
+    __metadata("design:type", Date)
+], Reservate.prototype, "reservation_end", void 0);
+__decorate([
     (0, type_graphql_1.Field)(() => user_entity_1.User, { nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.reservates),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.reservates, { onDelete: "CASCADE" }),
     __metadata("design:type", user_entity_1.User)
 ], Reservate.prototype, "user", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => parking_entity_1.Parking, { nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => parking_entity_1.Parking, (parking) => parking.reservates),
-    __metadata("design:type", parking_entity_1.Parking)
-], Reservate.prototype, "parking", void 0);
+    (0, type_graphql_1.Field)(() => place_entity_1.Place, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => place_entity_1.Place, (place) => place.reservate, {
+        onDelete: "CASCADE",
+    }),
+    __metadata("design:type", place_entity_1.Place)
+], Reservate.prototype, "place", void 0);
 Reservate = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()

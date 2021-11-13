@@ -1,12 +1,14 @@
 import {Field, ObjectType} from "type-graphql";
 import {
   BaseEntity,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   PrimaryColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import {Parking} from "./parking.entity";
+
+import {Place} from "./place.entity";
 import {User} from "./user.entity";
 
 @ObjectType()
@@ -20,11 +22,21 @@ export class Reservate extends BaseEntity {
   @PrimaryColumn()
   reservation_token: string;
 
+  @Field(() => Date)
+  @CreateDateColumn()
+  reservation_starts: Date;
+
+  @Field(() => Date)
+  @CreateDateColumn({nullable: true})
+  reservation_end: Date;
+
   @Field(() => User, {nullable: true})
-  @ManyToOne(() => User, (user) => user.reservates)
+  @ManyToOne(() => User, (user) => user.reservates, {onDelete: "CASCADE"})
   user: User;
 
-  @Field(() => Parking,{nullable: true})
-  @ManyToOne(() => Parking, (parking) => parking.reservates)
-  parking: Parking;
+  @Field(() => Place, {nullable: true})
+  @ManyToOne(() => Place, (place) => place.reservate, {
+    onDelete: "CASCADE",
+  })
+  place: Place;
 }

@@ -1,5 +1,6 @@
-import {Parking} from "src/entity/parking.entity";
 import {Field, ObjectType} from "type-graphql";
+
+import {Parking} from "../entity/parking.entity";
 
 @ObjectType()
 class ParkingErrors {

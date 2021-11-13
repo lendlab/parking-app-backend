@@ -6,7 +6,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import {Parking} from "./parking.entity";
+import {Have} from "./have.entity";
+import {Reservate} from "./reservate.entity";
 
 @ObjectType()
 @Entity()
@@ -17,8 +18,11 @@ export class Place extends BaseEntity {
 
   @Field(() => Boolean)
   @Column({type: "boolean"})
-  busy: Boolean;
+  occuped: Boolean;
 
-  @OneToMany(() => Parking, (parking) => parking.place)
-  parking: Promise<Parking>;
+  @OneToMany(() => Have, (have) => have.parking)
+  have: Promise<Have>;
+
+  @OneToMany(() => Reservate, (reservate) => reservate.place)
+  reservate: Promise<Reservate>;
 }
