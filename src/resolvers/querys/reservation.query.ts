@@ -29,4 +29,19 @@ export class ReservationQuerys {
 
     return reservations;
   }
+
+  @Query(() => Reservate, {nullable: true})
+  async getMyActiveReservations(@Ctx() {req}: MyContext) {
+    const email = req.session.email;
+
+    const reservations = await getRepository(Reservate)
+      .createQueryBuilder("reservate")
+      .innerJoinAndSelect("reservate.user", "user")
+      .innerJoinAndSelect("reservate.place", "place")
+      .where(`user.email = '${email}' `)
+      .andWhere(`place.state = 'Ocupado'`)
+      .getOne();
+
+    return reservations;
+  }
 }
