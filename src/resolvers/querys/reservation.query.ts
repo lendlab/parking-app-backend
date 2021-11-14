@@ -40,6 +40,7 @@ export class ReservationQuerys {
       .innerJoinAndSelect("reservate.place", "place")
       .where(`user.email = '${email}' `)
       .andWhere(`place.state = 'Ocupado'`)
+      .orWhere(`place.state = 'Solicitado'`)
       .getOne();
 
     return reservations;
