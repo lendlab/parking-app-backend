@@ -23,7 +23,7 @@ export class Reservate extends BaseEntity {
   reservation_token: string;
 
   @Field(() => Date)
-  @CreateDateColumn({type: "timestamp"})
+  @CreateDateColumn({type: "timestamp", primary: true, unique: true})
   reservation_starts: Date;
 
   @Field(() => Date, {nullable: true})
@@ -31,13 +31,18 @@ export class Reservate extends BaseEntity {
   reservation_end: Date;
 
   @Field(() => User)
-  @ManyToOne(() => User, (user) => user.reservates, {onDelete: "CASCADE"})
+  @ManyToOne(() => User, (user) => user.reservates, {
+    onDelete: "CASCADE",
+    primary: true,
+    cascade: true,
+  })
   user: User;
 
   @Field(() => Place)
   @ManyToOne(() => Place, (place) => place.reservate, {
-    primary: true,
     onDelete: "CASCADE",
+    primary: true,
+    cascade: true,
   })
   place: Place;
 }
