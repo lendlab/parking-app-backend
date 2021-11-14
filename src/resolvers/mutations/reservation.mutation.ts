@@ -21,9 +21,41 @@ export class ReservationMutation {
     @Arg("options", () => ReservationInput) options: ReservationInput,
     @PubSub() pubsub: PubSubEngine
   ): Promise<CreateReservationResponse> {
+    let reservate;
+
+    reservate = await getRepository(Reservate)
+      .createQueryBuilder("r")
+      .innerJoinAndSelect("r.user", "user")
+      .innerJoinAndSelect("r.place", "place")
+      .where(`place.place_id = ${options.place.place_id}`)
+      .getOne();
+
+    console.log(reservate);
+
+    if (reservate) {
+      if (reservate.place.state === "Ocupado") {
+        return {
+          errors: [
+            {
+              path: "reserva",
+              message: "Lugar actualmente ocupado.",
+            },
+          ],
+        };
+      }
+      return {
+        errors: [
+          {
+            path: "reserva",
+            message: "ya existe una reserva en curso para esta plaza.",
+          },
+        ],
+      };
+    }
+
     const token = options.reservation_token + genToken(10);
 
-    await Reservate.create({
+    const result = await Reservate.create({
       reservation_token: token,
       reservation_starts: options.reservation_starts,
       reservation_end: options.reservation_end,
@@ -31,52 +63,20 @@ export class ReservationMutation {
       user: options.user,
     }).save();
 
-    const reservate = await getRepository(Reservate)
+    await Place.update(options.place.place_id, {
+      state: (options.place.state = "Solicitado"),
+    });
+
+    reservate = await getRepository(Reservate)
       .createQueryBuilder("r")
       .innerJoinAndSelect("r.user", "user")
       .innerJoinAndSelect("r.place", "place")
       .where(`place.place_id = ${options.place.place_id}`)
       .getOne();
 
-    await Place.update(options.place.place_id, {
-      state: (options.place.state = "Solicitado"),
-    });
+    pubsub.publish("CREATE_RESERVATION", result);
 
-    pubsub.publish("CREATE_RESERVATION", reservate);
-
-    switch (reservate?.place.state) {
-      case "Solicitado":
-        return {
-          errors: [
-            {
-              path: "place.state",
-              message: "Lugar solicitado con exito",
-            },
-          ],
-          reservate,
-        };
-      case "Ocupado":
-        return {
-          errors: [
-            {
-              path: "place.state",
-              message: "Lugar ocupado",
-            },
-          ],
-        };
-      case "Libre":
-        return {
-          errors: [
-            {
-              path: "place.state",
-              message: "Lugar Libre",
-            },
-          ],
-          reservate,
-        };
-      default:
-        return {reservate};
-    }
+    return {reservate};
   }
 
   @Mutation(() => ReservateResponse, {nullable: true})

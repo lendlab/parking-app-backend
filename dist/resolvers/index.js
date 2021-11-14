@@ -11,6 +11,7 @@ const parking_query_1 = require("./querys/parking.query");
 const place_query_1 = require("./querys/place.query");
 const reservation_query_1 = require("./querys/reservation.query");
 const user_query_1 = require("./querys/user.query");
+const reservation_subscription_1 = require("./subscriptions/reservation.subscription");
 const resolvers = [
     hello_1.HelloResolver,
     user_query_1.UserQuery,
@@ -21,6 +22,7 @@ const resolvers = [
     parking_mutation_1.ParkingMutation,
     place_mutation_1.PlaceMutations,
     reservation_mutation_1.ReservationMutation,
+    reservation_subscription_1.ReservationSubscription,
 ];
 exports.shcemaIndex = (0, type_graphql_1.buildSchema)({
     resolvers: resolvers,

@@ -13,10 +13,16 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReservationSubscription = void 0;
-const reservate_entity_1 = require("src/entity/reservate.entity");
 const type_graphql_1 = require("type-graphql");
+const reservate_entity_1 = require("../../entity/reservate.entity");
 let ReservationSubscription = class ReservationSubscription {
     newReservationSubscription(payload) {
+        return payload;
+    }
+    returnReservationSubscription(payload) {
+        return payload;
+    }
+    confirmReservationSubscription(payload) {
         return payload;
     }
 };
@@ -27,6 +33,20 @@ __decorate([
     __metadata("design:paramtypes", [reservate_entity_1.Reservate]),
     __metadata("design:returntype", reservate_entity_1.Reservate)
 ], ReservationSubscription.prototype, "newReservationSubscription", null);
+__decorate([
+    (0, type_graphql_1.Subscription)({ topics: "RETURN_RESERVATION" }),
+    __param(0, (0, type_graphql_1.Root)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [reservate_entity_1.Reservate]),
+    __metadata("design:returntype", reservate_entity_1.Reservate)
+], ReservationSubscription.prototype, "returnReservationSubscription", null);
+__decorate([
+    (0, type_graphql_1.Subscription)({ topics: "CONFIRM_RESERVATION" }),
+    __param(0, (0, type_graphql_1.Root)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [reservate_entity_1.Reservate]),
+    __metadata("design:returntype", reservate_entity_1.Reservate)
+], ReservationSubscription.prototype, "confirmReservationSubscription", null);
 ReservationSubscription = __decorate([
     (0, type_graphql_1.Resolver)()
 ], ReservationSubscription);
