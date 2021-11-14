@@ -4,6 +4,9 @@ import {Field, InputType} from "type-graphql";
 class Place_Id {
   @Field()
   place_id: number;
+
+  @Field({nullable: true})
+  state: string;
 }
 
 @InputType()

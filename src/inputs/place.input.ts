@@ -1,10 +1,10 @@
 import {Field, InputType} from "type-graphql";
 
-@InputType()
-class Parking_ID {
-  @Field()
-  parking_id: number;
-}
+//@InputType()
+//class Parking_ID {
+//  @Field()
+//  parking_id: number;
+//}
 
 @InputType()
 export class PlaceInput {
@@ -12,14 +12,17 @@ export class PlaceInput {
   occuped: Boolean;
 
   @Field()
+  state: string;
+
+  @Field()
   place_number: number;
 }
 
 @InputType()
 export class Reservates {
-  @Field(() => Boolean)
+  @Field(() => Boolean, {nullable: true})
   occuped: Boolean;
 
-  @Field(() => Parking_ID, {nullable: true})
-  parking: Parking_ID;
+  @Field({nullable: true})
+  state: string;
 }
