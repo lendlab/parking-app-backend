@@ -1,4 +1,4 @@
-import {Arg, Int, Mutation, Resolver} from "type-graphql";
+import {Arg, Int, Mutation, PubSub, PubSubEngine, Resolver} from "type-graphql";
 import {getRepository} from "typeorm";
 
 import {Place} from "../../entity/place.entity";
@@ -18,7 +18,8 @@ import {Have} from "../../entity/have.entity";
 export class ReservationMutation {
   @Mutation(() => CreateReservationResponse, {nullable: true})
   async createReservation(
-    @Arg("options", () => ReservationInput) options: ReservationInput
+    @Arg("options", () => ReservationInput) options: ReservationInput,
+    @PubSub() pubsub: PubSubEngine
   ): Promise<CreateReservationResponse> {
     const token = options.reservation_token + genToken(10);
 
@@ -41,7 +42,7 @@ export class ReservationMutation {
       state: (options.place.state = "Solicitado"),
     });
 
-    console.log(reservate);
+    pubsub.publish("CREATE_RESERVATION", reservate);
 
     switch (reservate?.place.state) {
       case "Solicitado":
@@ -81,7 +82,8 @@ export class ReservationMutation {
   @Mutation(() => ReservateResponse, {nullable: true})
   async confirmReservation(
     @Arg("place_id", () => Int) place_id: number,
-    @Arg("options", () => Reservates) options: Reservates
+    @Arg("options", () => Reservates) options: Reservates,
+    @PubSub() pubsub: PubSubEngine
   ): Promise<ReservateResponse> {
     const have = await getRepository(Have)
       .createQueryBuilder("have")
@@ -97,7 +99,7 @@ export class ReservationMutation {
       });
     }
 
-    console.log(have);
+    pubsub.publish("CONFIRM_RESERVATION", have);
 
     return {have};
   }
@@ -105,7 +107,8 @@ export class ReservationMutation {
   @Mutation(() => ReservateResponse, {nullable: true})
   async returnReservation(
     @Arg("place_id", () => Int) place_id: number,
-    @Arg("options", () => Reservates) options: Reservates
+    @Arg("options", () => Reservates) options: Reservates,
+    @PubSub() pubsub: PubSubEngine
   ): Promise<ReservateResponse> {
     const have = await getRepository(Have)
       .createQueryBuilder("have")
@@ -121,7 +124,7 @@ export class ReservationMutation {
       });
     }
 
-    console.log(have);
+    pubsub.publish("RETURN_RESERVATION", have);
 
     return {have};
   }

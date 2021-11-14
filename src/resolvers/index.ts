@@ -8,6 +8,7 @@ import {ParkingQuerys} from "./querys/parking.query";
 import {PlaceQuerys} from "./querys/place.query";
 import {ReservationQuerys} from "./querys/reservation.query";
 import {UserQuery} from "./querys/user.query";
+import {ReservationSubscription} from "./subscriptions/reservation.subscription";
 
 const resolvers = [
   HelloResolver,
@@ -20,6 +21,8 @@ const resolvers = [
   ParkingMutation,
   PlaceMutations,
   ReservationMutation,
+  //subscription
+  ReservationSubscription,
 ] as const;
 
 export const shcemaIndex = buildSchema({
