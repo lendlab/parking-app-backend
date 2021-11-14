@@ -28,7 +28,7 @@ __decorate([
 ], Reservate.prototype, "reservation_token", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => Date),
-    (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
+    (0, typeorm_1.CreateDateColumn)({ type: "timestamp", primary: true, unique: true }),
     __metadata("design:type", Date)
 ], Reservate.prototype, "reservation_starts", void 0);
 __decorate([
@@ -38,14 +38,19 @@ __decorate([
 ], Reservate.prototype, "reservation_end", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => user_entity_1.User),
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.reservates, { onDelete: "CASCADE" }),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.reservates, {
+        onDelete: "CASCADE",
+        primary: true,
+        cascade: true,
+    }),
     __metadata("design:type", user_entity_1.User)
 ], Reservate.prototype, "user", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => place_entity_1.Place),
     (0, typeorm_1.ManyToOne)(() => place_entity_1.Place, (place) => place.reservate, {
-        primary: true,
         onDelete: "CASCADE",
+        primary: true,
+        cascade: true,
     }),
     __metadata("design:type", place_entity_1.Place)
 ], Reservate.prototype, "place", void 0);

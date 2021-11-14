@@ -9,8 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReservateResponse = void 0;
+exports.CreateReservationResponse = exports.ReservateResponse = void 0;
 const type_graphql_1 = require("type-graphql");
+const reservate_entity_1 = require("../entity/reservate.entity");
 const have_entity_1 = require("../entity/have.entity");
 let ReservateErrors = class ReservateErrors {
 };
@@ -25,6 +26,19 @@ __decorate([
 ReservateErrors = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], ReservateErrors);
+let CreateErrors = class CreateErrors {
+};
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateErrors.prototype, "path", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateErrors.prototype, "message", void 0);
+CreateErrors = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], CreateErrors);
 let ReservateResponse = class ReservateResponse {
 };
 __decorate([
@@ -39,4 +53,18 @@ ReservateResponse = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], ReservateResponse);
 exports.ReservateResponse = ReservateResponse;
+let CreateReservationResponse = class CreateReservationResponse {
+};
+__decorate([
+    (0, type_graphql_1.Field)(() => [CreateErrors], { nullable: true }),
+    __metadata("design:type", Array)
+], CreateReservationResponse.prototype, "errors", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => reservate_entity_1.Reservate, { nullable: true }),
+    __metadata("design:type", reservate_entity_1.Reservate)
+], CreateReservationResponse.prototype, "reservate", void 0);
+CreateReservationResponse = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], CreateReservationResponse);
+exports.CreateReservationResponse = CreateReservationResponse;
 //# sourceMappingURL=reservate.response.js.map

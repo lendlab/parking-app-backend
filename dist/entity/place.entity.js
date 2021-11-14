@@ -14,6 +14,12 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const have_entity_1 = require("./have.entity");
 const reservate_entity_1 = require("./reservate.entity");
+var States;
+(function (States) {
+    States["libre"] = "Libre";
+    States["solicitud_en_procesp"] = "Solicitado";
+    States["ocupado"] = "Ocupado";
+})(States || (States = {}));
 let Place = class Place extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -31,6 +37,11 @@ __decorate([
     (0, typeorm_1.Column)({ type: "boolean" }),
     __metadata("design:type", Boolean)
 ], Place.prototype, "occuped", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => String),
+    (0, typeorm_1.Column)({ type: "enum", enum: States }),
+    __metadata("design:type", String)
+], Place.prototype, "state", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => have_entity_1.Have, (have) => have.parking),
     __metadata("design:type", Promise)

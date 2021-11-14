@@ -17,6 +17,10 @@ __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", Number)
 ], Place_Id.prototype, "place_id", void 0);
+__decorate([
+    (0, type_graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], Place_Id.prototype, "state", void 0);
 Place_Id = __decorate([
     (0, type_graphql_1.InputType)()
 ], Place_Id);

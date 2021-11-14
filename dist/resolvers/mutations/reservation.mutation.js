@@ -25,14 +25,56 @@ const have_entity_1 = require("../../entity/have.entity");
 let ReservationMutation = class ReservationMutation {
     async createReservation(options) {
         const token = options.reservation_token + (0, genToken_1.genToken)(10);
-        const reservation = await reservate_entity_1.Reservate.create({
+        await reservate_entity_1.Reservate.create({
             reservation_token: token,
             reservation_starts: options.reservation_starts,
             reservation_end: options.reservation_end,
             place: options.place,
             user: options.user,
         }).save();
-        return reservation;
+        const reservate = await (0, typeorm_1.getRepository)(reservate_entity_1.Reservate)
+            .createQueryBuilder("r")
+            .innerJoinAndSelect("r.user", "user")
+            .innerJoinAndSelect("r.place", "place")
+            .where(`place.place_id = ${options.place.place_id}`)
+            .getOne();
+        await place_entity_1.Place.update(options.place.place_id, {
+            state: (options.place.state = "Solicitado"),
+        });
+        console.log(reservate);
+        switch (reservate === null || reservate === void 0 ? void 0 : reservate.place.state) {
+            case "Solicitado":
+                return {
+                    errors: [
+                        {
+                            path: "place.state",
+                            message: "Lugar solicitado con exito",
+                        },
+                    ],
+                    reservate,
+                };
+            case "Ocupado":
+                return {
+                    errors: [
+                        {
+                            path: "place.state",
+                            message: "Lugar ocupado",
+                        },
+                    ],
+                };
+            case "Libre":
+                return {
+                    errors: [
+                        {
+                            path: "place.state",
+                            message: "Lugar Libre",
+                        },
+                    ],
+                    reservate,
+                };
+            default:
+                return { reservate };
+        }
     }
     async confirmReservation(place_id, options) {
         const have = await (0, typeorm_1.getRepository)(have_entity_1.Have)
@@ -41,17 +83,34 @@ let ReservationMutation = class ReservationMutation {
             .innerJoinAndSelect("have.parking", "parking")
             .where(`place.place_id = ${place_id}`)
             .getOne();
-        if (options.occuped === true) {
-            await place_entity_1.Place.update({ place_id }, options);
+        if (options.state === "Solicitado") {
+            await place_entity_1.Place.update(place_id, {
+                state: (options.state = "Ocupado"),
+                occuped: (options.occuped = true),
+            });
         }
-        else {
-            await place_entity_1.Place.update({ place_id }, options);
+        console.log(have);
+        return { have };
+    }
+    async returnReservation(place_id, options) {
+        const have = await (0, typeorm_1.getRepository)(have_entity_1.Have)
+            .createQueryBuilder("have")
+            .innerJoinAndSelect("have.place", "place")
+            .innerJoinAndSelect("have.parking", "parking")
+            .where(`place.place_id = ${place_id}`)
+            .getOne();
+        if (options.state === "Ocupado") {
+            await place_entity_1.Place.update(place_id, {
+                state: (options.state = "Libre"),
+                occuped: (options.occuped = false),
+            });
         }
+        console.log(have);
         return { have };
     }
 };
 __decorate([
-    (0, type_graphql_1.Mutation)(() => reservate_entity_1.Reservate, { nullable: true }),
+    (0, type_graphql_1.Mutation)(() => reservate_response_1.CreateReservationResponse, { nullable: true }),
     __param(0, (0, type_graphql_1.Arg)("options", () => reservate_input_1.ReservationInput)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [reservate_input_1.ReservationInput]),
@@ -65,6 +124,14 @@ __decorate([
     __metadata("design:paramtypes", [Number, place_input_1.Reservates]),
     __metadata("design:returntype", Promise)
 ], ReservationMutation.prototype, "confirmReservation", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => reservate_response_1.ReservateResponse, { nullable: true }),
+    __param(0, (0, type_graphql_1.Arg)("place_id", () => type_graphql_1.Int)),
+    __param(1, (0, type_graphql_1.Arg)("options", () => place_input_1.Reservates)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, place_input_1.Reservates]),
+    __metadata("design:returntype", Promise)
+], ReservationMutation.prototype, "returnReservation", null);
 ReservationMutation = __decorate([
     (0, type_graphql_1.Resolver)()
 ], ReservationMutation);
