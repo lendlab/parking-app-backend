@@ -19,6 +19,18 @@ export class PlaceInput {
 }
 
 @InputType()
+export class UpdatePlaceInput {
+  @Field(() => Boolean, {nullable: true})
+  occuped: Boolean;
+
+  @Field({nullable: true})
+  state: string;
+
+  @Field({nullable: true})
+  place_number: number;
+}
+
+@InputType()
 export class Reservates {
   @Field(() => Boolean, {nullable: true})
   occuped: Boolean;
