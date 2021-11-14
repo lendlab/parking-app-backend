@@ -117,15 +117,36 @@ export class ReservationMutation {
       .where(`place.place_id = ${place_id}`)
       .getOne();
 
+    const reservation = await getRepository(Reservate)
+      .createQueryBuilder("reservate")
+      .innerJoinAndSelect("reservate.place", "place")
+      .where(`placePlaceId = ${place_id}`)
+      .getOne();
+
+    const reservation_id = reservation?.reservation_id;
+
     if (options.state === "Ocupado") {
       await Place.update(place_id, {
         state: (options.state = "Libre"),
         occuped: (options.occuped = false),
       });
+
+      await Reservate.delete({reservation_id});
     }
 
     pubsub.publish("RETURN_RESERVATION", have);
 
     return {have};
+  }
+
+  @Mutation(() => Boolean, {nullable: true})
+  async deleteReservation(
+    @Arg("reservation_id", () => Int) reservation_id: number
+  ) {
+    const reservation = await Reservate.delete({reservation_id});
+    if (!reservation) {
+      return null;
+    }
+    return true;
   }
 }
