@@ -20,6 +20,14 @@ export class Parking extends BaseEntity {
   parking_name: string;
 
   @Field()
+  @Column()
+  image: string;
+
+  @Field()
+  @Column()
+  minutes: number;
+
+  @Field()
   @Column({nullable: true})
   longitude: number;
 

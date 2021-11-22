@@ -8,6 +8,12 @@ export class ParkingInput {
   @Field()
   longitude: number;
 
+  @Field()
+  image: string;
+
+  @Field()
+  minutes: number;
+
   @Field({nullable: true})
   latitude: number;
 }
